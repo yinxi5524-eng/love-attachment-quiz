@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<!-- 依恋类型测试 · 单文件离线版 · 题源: ECR-R (Fraley, Waller, & Brennan, 2000) · 审查修订: 2026/10/31 -->
+
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FAF5EF">
+<meta name="description" content="依据 ECR-R 英文题目编制的中文参考自评：了解依恋焦虑与回避倾向。连续分数与四分区示意仅供自我探索，非诊断。">
+<title>恋爱依恋类型测试 · 你的爱是什么形状</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💗</text></svg>">
+</head>
+<body>
+
+<!-- ======================= 封面 ======================= -->
+<section id="screen-cover" class="screen active">
+  <div class="bg-blobs" aria-hidden="true">
+    <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+  </div>
+
+  <div class="cover-wrap">
+    <div class="cover-badge reveal">💗 恋爱依恋类型测试</div>
+
+    <h1 class="cover-title reveal">你在爱里，<br>是什么<em>形状</em>？</h1>
+
+    <p class="cover-sub reveal">有人反复不安，有人习惯保持距离。<br>36 道题，探索你对亲近与依赖的感受。</p>
+
+    <div class="cover-stats reveal">
+      <div class="stat"><b>36</b><span>道题目</span></div>
+      <div class="stat"><b>7</b><span>级量表</span></div>
+      <div class="stat"><b>2</b><span>连续维度</span></div>
+      <div class="stat"><b>~6</b><span>分钟</span></div>
+    </div>
+
+    <button id="btn-start" class="btn-primary reveal">开始测试 →</button>
+    <button id="btn-resume" class="btn-ghost hidden">继续上次进度（<span id="resume-num"></span>/36）</button>
+    <button id="btn-lastresult" class="btn-ghost hidden">查看上次结果</button>
+
+    <div class="cover-academic reveal">
+      <span class="chip">📖 基于 ECR-R 量表</span>
+      <span class="chip">🎓 Fraley, Waller &amp; Brennan (2000)</span>
+      <span class="chip">中文参考译文 · 尚未独立验证</span>
+    </div>
+
+    <div class="cover-instructions reveal">
+      <p>主要面向成人自我探索。请按你通常对恋爱关系的感受作答，不必只回想最近一次争执；全程尽量保持相同的关系参照。</p>
+      <p>没有恋爱经历，也可以根据你对亲近、依赖和关系的理解与感受作答。若主要依据想象，结果仅供探索，不能与基于实际恋爱经历的自评作相同解释。</p>
+      <p>1 表示完全不符合，4 表示中立（不偏向任一端），7 表示完全符合。没有相关经验不等于中立，请勿为了完成而随意选分。</p>
+      <p>结果不是心理诊断，也不是择偶或关系去留的依据。</p>
+      <label class="save-choice"><input type="checkbox" id="save-progress" checked> 在此浏览器保存进度和结果</label>
+      <p id="privacy-note">本文件不主动上传答案。记录留在此浏览器，直到你清除；共用设备可取消保存。</p>
+      <button id="btn-clear" class="btn-ghost" type="button">清除本地记录</button>
+      <p id="storage-status" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 答题 ======================= -->
+<section id="screen-quiz" class="screen">
+  <header class="quiz-top">
+    <button id="btn-prev" class="icon-btn" aria-label="上一题">←</button>
+    <div class="quiz-progress">
+      <div class="quiz-progress-bar" id="quiz-progress" role="progressbar" aria-label="已完成题目" aria-valuemin="0" aria-valuemax="36" aria-valuenow="0"><i id="progress-fill"></i></div>
+      <div class="quiz-progress-num"><span id="quiz-idx">1</span> / 36</div>
+    </div>
+    <button id="btn-restart" class="icon-btn" aria-label="重新开始">↻</button>
+  </header>
+
+  <div class="quiz-card-wrap">
+    <div class="quiz-card" id="quiz-card">
+      <div class="quiz-tag" id="quiz-dim-tag">亲密关系自评</div>
+      <h2 class="quiz-text" id="quiz-text" tabindex="-1">题目加载中…</h2>
+      <div class="quiz-options" id="quiz-options" role="group" aria-labelledby="quiz-text" aria-describedby="quiz-hint"></div>
+      <button class="btn-primary quiz-next" id="btn-next" type="button" disabled>下一题 →</button>
+      <p class="review-hint" id="review-hint" role="status"></p>
+    </div>
+    <p class="quiz-hint" id="quiz-hint">请按你通常的理解与感受选择；没有恋爱经历，也可参考你对亲近、依赖和关系的感受。若主要依据想象，结果仅供探索参考。选择后点击“下一题”，可返回检查。</p>
+  </div>
+</section>
+
+<!-- ======================= 结果 ======================= -->
+<section id="screen-result" class="screen">
+  <div class="result-wrap">
+
+    <!-- 类型 Hero -->
+    <div class="result-hero" id="result-hero">
+      <div class="hero-blob" aria-hidden="true"></div>
+      <div class="hero-label">你的依恋倾向</div>
+      <div class="hero-icon" id="hero-icon">🌿</div>
+      <h1 class="hero-name" id="hero-name" tabindex="-1">依恋自评结果</h1>
+      <div class="hero-alias" id="hero-alias"></div>
+      <p class="hero-tagline" id="hero-tagline"></p>
+      <div class="hero-scores">
+        <div class="score-row">
+          <span class="score-label">依恋焦虑</span>
+          <div class="score-bar"><i id="bar-anx"></i><u class="score-mid" title="量表中点"></u></div>
+          <span class="score-num" id="num-anx">0.0</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">回避亲密</span>
+          <div class="score-bar"><i id="bar-avo"></i><u class="score-mid"></u></div>
+          <span class="score-num" id="num-avo">0.0</span>
+        </div>
+      </div>
+      <p class="hero-scale-note">分数区间 1–7 · 竖线为中点 4，仅作图示参考</p>
+    </div>
+
+    <!-- 四象限坐标 -->
+    <div class="card">
+      <h3 class="card-title">📍 你在依恋地图上的位置</h3>
+      <p class="card-desc">请优先看两个连续分数。四分区仅帮助理解，中心 4 是量表中点，不是经过验证的类型或诊断分界。</p>
+      <div class="quadrant-wrap">
+        <div class="quadrant" id="quadrant">
+          <span class="q-label q-anxious">焦虑-痴迷型<br><small>高焦虑·低回避</small></span>
+          <span class="q-label q-fearful">恐惧型<br><small>高焦虑·高回避</small></span>
+          <span class="q-label q-secure">安全型<br><small>低焦虑·低回避</small></span>
+          <span class="q-label q-avoidant">疏离-回避型<br><small>低焦虑·高回避</small></span>
+          <div class="q-axis-y">依恋焦虑 ↑</div>
+          <div class="q-axis-x">依恋回避 →</div>
+          <div class="q-cross-v"></div>
+          <div class="q-cross-h"></div>
+          <div class="plot-area"><div class="q-dot" id="q-dot"></div></div>
+        </div>
+      </div>
+      <p class="quadrant-note" id="borderline-note"></p>
+    </div>
+
+    <!-- 深度解读 -->
+    <div class="card">
+      <h3 class="card-title" id="ov-title">🔍 关于你的类型</h3>
+      <div id="overview"></div>
+    </div>
+
+    <!-- 恋爱场景 -->
+    <div class="card">
+      <h3 class="card-title">🎭 可以对照的关系情境</h3>
+      <div class="scene-list" id="scenes"></div>
+    </div>
+
+    <!-- 成长建议 -->
+    <div class="card">
+      <h3 class="card-title">🧭 可选择的沟通练习</h3>
+      <div class="tip-list" id="growth"></div>
+    </div>
+
+    <!-- 相处指南 -->
+    <div class="card">
+      <h3 class="card-title">🤝 四种类型相处指南</h3>
+      <p class="card-desc">以下是沟通参考，不代表某种倾向的人必然如此。请结合对方实际表达与双方边界。</p>
+      <div class="tabs" id="guide-tabs"></div>
+      <div class="tab-body" id="guide-body"></div>
+    </div>
+
+    <!-- 匹配兼容性 -->
+    <div class="card">
+      <h3 class="card-title">💞 不同倾向下的互动参考</h3>
+      <p class="card-desc">这里不评星级、不预测匹配概率。只测了你的答案，不能据此判断伴侣或关系结局。</p>
+      <div class="match-list" id="match-list"></div>
+    </div>
+
+    <!-- 学术依据 -->
+    <div class="card card-academic">
+      <h3 class="card-title">🎓 本测试的学术依据</h3>
+      <ul class="ref-list" id="refs"></ul>
+      <p class="ref-note">本页依据 ECR-R 英文 36 题编制中文参考译文，采用原版反向计分及两维均分规则；中文措辞尚未独立验证。四分区和沟通建议不是官方计分结论。作者说明非商业研究无需另行许可，其他使用场景应核实许可范围。</p>
+    </div>
+
+    <p class="result-disclaimer">本结果仅供自我探索，不构成诊断、配对评估或治疗建议。分数不用于推断童年、创伤或关系结局。若主要依据想象作答，应视为探索练习，不作标准量表解释；实际经历与不同关系也会影响回答。</p>
+
+    <div class="result-actions">
+      <button id="btn-share" class="btn-primary">保存分享卡片 🖼️</button>
+      <button id="btn-retry" class="btn-ghost">重新测一次</button>
+      <button id="btn-home" class="btn-ghost">返回首页与隐私设置</button>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 分享卡片弹层 ======================= -->
+<div id="card-modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="保存依恋倾向卡片">
+  <div class="modal-mask"></div>
+  <div class="modal-body">
+    <img id="card-img" alt="依恋类型分享卡片">
+    <p class="modal-tip">长按图片保存 / 分享 · 桌面端右键另存</p>
+    <button id="btn-download" class="btn-primary small">下载图片</button>
+    <button id="btn-close-modal" class="btn-ghost">关闭</button>
+  </div>
+</div>
+
+<script src="js/data-questions.js"></script>
+<script src="js/data-results.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

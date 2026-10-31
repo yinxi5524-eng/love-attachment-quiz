@@ -1,0 +1,11 @@
+# 部署产物与本地同步工件（不入库）
+.zcode-site/
+.zcode-site.json
+sync-out/
+backup-*.html
+
+# 系统与日志
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
